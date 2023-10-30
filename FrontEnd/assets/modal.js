@@ -113,11 +113,11 @@ function checkConditions() {
     // Si photo non définie ou si titre vide
     if (workPhoto === null || workTitle === "" ) {
 
-        console.log("Veuillez remplir tous les champs !");
-
         // Desactive le bouton Valider
         document.getElementById('modal-add-button').classList.remove("active");
         document.getElementById('modal-add-button').classList.add("inactive");
+
+        console.log("Veuillez remplir tous les champs !");
         
         return false;
 
@@ -126,11 +126,11 @@ function checkConditions() {
     // Si photo définie et titre non vide
     if (workPhoto != null && workTitle !== "") {
 
-        console.log("Tout est OK !");
-
         // Active le bouton Valider
         document.getElementById('modal-add-button').classList.remove("inactive");
         document.getElementById('modal-add-button').classList.add("active");
+
+        console.log("Tout est OK !");
         
         return true;
 
@@ -141,6 +141,9 @@ function checkConditions() {
 async function addWork(title, category) {
 
     try {
+
+        console.log(title);
+        console.log(category);
 
         // Ajoute sur le serveur
         const r = await uploadWork(workPhoto, title, category);
@@ -154,9 +157,6 @@ async function addWork(title, category) {
 
         // Ferme la modale
         closeModal();
-
-        // Reinitialise le contenu de la modale
-        resetAddModalContent();
 
     } catch (e) {
         throw e;
@@ -296,6 +296,11 @@ function createRemoveModal(works, parentElement) {
     modalButton.classList.add("modal-button", "active", "js-modal");
     modalButton.innerText = "Ajouter une photo";
     modalButton.href = "#modal-add-photo";
+    modalButton.addEventListener('click', () => {
+
+        resetAddModalContent();
+
+    });
 
     // === CONTENT ===
 
@@ -363,11 +368,6 @@ function createAddModal(works, parentElement) {
     const modalBack = document.createElement("a");
     modalBack.classList.add("modal-link", "js-modal");
     modalBack.href = "#modal-remove-photo";
-    modalBack.addEventListener('click', () => {
-
-        resetAddModalContent();
-
-    });
 
     const modalBackIcon = document.createElement("i");
     modalBackIcon.classList.add("fa-solid", "fa-arrow-left", "modal-back");
@@ -497,7 +497,7 @@ function createAddModalContent(modalContent) {
 
         // Si formulaire ok alors appel de la fonction
         if (check) {
-            addWork(titleInput.value, categorySelect.value);
+            addWork(workTitle, categorySelect.value);
         }
 
     });
@@ -516,6 +516,16 @@ function resetAddModalContent() {
     // Reinitialise le contenu de la modale
     const modalContent = document.getElementById('modal-content-add');
     modalContent.innerHTML = "";
+
+    // Reinitialise les variables
+    workPhoto = null;
+    workTitle = "";
+
+    // Desactive le bouton Valider
+    document.getElementById('modal-add-button').classList.remove("active");
+    document.getElementById('modal-add-button').classList.add("inactive");
+
+    // Recree le contenu de la modale
     createAddModalContent(modalContent);
     
 }
