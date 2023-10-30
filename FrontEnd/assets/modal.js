@@ -1,6 +1,7 @@
 let modal = null;
 let workPhoto = null;
 let workTitle = "";
+let workCategory = "";
 
 // === CONTROLLERS ===
 
@@ -472,6 +473,13 @@ function createAddModalContent(modalContent) {
     categorySelect.id = "modal-add-category";
     categorySelect.className = 'modal-add__category-select';
     categorySelect.setAttribute('name', 'category');
+    categorySelect.addEventListener('change', () => {
+
+        // Recupere les donnees en entree
+        workCategory = categorySelect.value;
+        console.log(workCategory);
+
+    });
 
     const option1 = document.createElement("option");
     option1.value = "1";
@@ -497,7 +505,7 @@ function createAddModalContent(modalContent) {
 
         // Si formulaire ok alors appel de la fonction
         if (check) {
-            addWork(workTitle, categorySelect.value);
+            addWork(workTitle, workCategory);
         }
 
     });
@@ -520,6 +528,7 @@ function resetAddModalContent() {
     // Reinitialise les variables
     workPhoto = null;
     workTitle = "";
+    workCategory = "";
 
     // Desactive le bouton Valider
     document.getElementById('modal-add-button').classList.remove("active");
