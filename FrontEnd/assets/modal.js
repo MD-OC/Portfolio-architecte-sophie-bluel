@@ -528,7 +528,7 @@ function resetAddModalContent() {
     // Reinitialise les variables
     workPhoto = null;
     workTitle = "";
-    workCategory = "";
+    workCategory = "1"; // "Objets" est la categorie par defaut
 
     // Desactive le bouton Valider
     document.getElementById('modal-add-button').classList.remove("active");
