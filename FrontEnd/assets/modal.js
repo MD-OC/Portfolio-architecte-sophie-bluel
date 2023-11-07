@@ -433,6 +433,27 @@ function createAddModalContent(modalContent) {
         workPhoto = files[0];
         console.log(workPhoto);
 
+        // Recupere l'element info
+        const photoInfo = document.getElementById('photo-info');
+
+        // Verifie la taille du fichier (< 4 Mo)
+        const maxFileSize = 4 * 1024 * 1024; // 4 Mo en octets
+        if (workPhoto.size > maxFileSize) {
+            console.log('Le fichier est trop volumineux. Taille maximale: 4 Mo.');
+            photoInfo.textContent = 'Le fichier est trop volumineux. Taille maximale: 4 Mo.';
+            photoInfo.style.color = 'red';
+            return;
+        }
+
+        // Verifie le type du fichier (doit être 'image/jpeg' ou 'image/png')
+        const validTypes = ['image/jpeg', 'image/png'];
+        if (!validTypes.includes(workPhoto.type)) {
+            console.log('Format de fichier invalide. Les formats autorisés sont jpg et png.');
+            photoInfo.textContent = 'Format de fichier invalide. Les formats autorisés sont jpg et png.';
+            photoInfo.style.color = 'red';
+            return;
+        }
+
         // Affiche la photo dans la modale
         displayPhoto();
 
@@ -441,6 +462,7 @@ function createAddModalContent(modalContent) {
     });
 
     const photoInfo = document.createElement('p');
+    photoInfo.id = 'photo-info';
     photoInfo.className = 'modal-add__info';
     photoInfo.textContent = 'jpg, png: 4mo max';
 
